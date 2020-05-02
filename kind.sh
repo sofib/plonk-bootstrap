@@ -1,9 +1,9 @@
 #!/bin/sh
-
+BASEDIR=$(dirname "$0")
 NAMESPACE_CORE="${NAMESPACE_CORE:-plonk}"
 NAMESPACE_LOGIC="${NAMESPACE_LOGIC:-functions}"
 CLUSTER_NAME="${CLUSTER_NAME:-plonk-on-kind}"
-TEMPORARY_DIR=".temp"
+TEMPORARY_DIR="${BASEDIR}/.temp"
 
 mkdir $TEMPORARY_DIR || echo "Temporary dir already there."
 
@@ -36,7 +36,7 @@ EOF
 kubectl config use-context kind-$CLUSTER_NAME || exit 404
 # add dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
-kubectl apply -f ./yaml
+kubectl apply -f $BASEDIR/yaml
 
 git clone https://github.com/openfaas/faas-netes.git
 
